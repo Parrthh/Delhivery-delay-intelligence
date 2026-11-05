@@ -67,3 +67,60 @@ n_stops : +0.3247
 5. One sentence on why declared_value_inr was log-transformed (compare its mean and median before and after, using the filled columns):
 
 The mean for declared_value_inr is INR 1533.0542 and the median was INR 1121.5. After applying the log transformation, the mean and median were 7.0277 and 7.0224. The log transformation helped compressed large numerical values and help reduce the highly skewed inputs during modelling.
+
+# Model results (regression) - PART B
+
+### BASELINE PERFORMANCE:
+
+My results showed that the mean baseline predicted a constant delivery duration of 57.7493 hours which was calculated from the training dataset. On our validation dataset, the baseline achieved a MAE of 15.7952 hours, RMSE of 18.8552 hours, and R2 of -0.021221. The negative R2 here indicates that the baseline performed slightly worse than predicting the mean delivery duration of the validation set. 
+
+### MODEL COMPARISON:
+
+We compared four regression models that were trained using 840 training shipments and evaluated on 180 validation shipments. Following are the metrics that were recorded for each model:
+1. Linear Regression: Validation RMSE of 4.891169 hours; Validation R2 of 0.9313
+2. Decision Tree: Validation RMSE of 6.279637 hours; Validation R2 of 0.886728
+3. Random Forest: Validation RMSE of 5.509538 hours; Validation R2 of 0.912806
+4. Gradient Boosting: Validation RMSE of 4.9165; Validation R2 of 0.9306
+
+In this comparison, we found that Linear Regression achieved the lowest validation RMSE of 4.891169 hours. Therefore, it was selected as the final model.
+
+### HIGH BIAS vs HIGH VARIANCE:
+
+We evaluated the Decision Tree models at depth 1, 2, 3, 4, 6, 8, 12, and unlimited. 
+
+High bias (depth 1): At max_depth 1, the tree produced a training RMSE of 11.633436 hours and validation RMSE of 12.132363 hours. The gap between training RMSE and validation RMSE is 0.498927 hours. Even if the gap between the training RMSE and validation RMSE was small, both errors were high, which indicated that the model was underfitting.
+
+Best performing depth (depth 6): At max_depth 6, the tree achieved its lowest validation RMSE of 6.279637 hours, and a training RMSE of 4.711358 hours. The gap between training RMSE and validation RMSE is 1.568279 hours. This shows that model achieved a better balance between fitting the training data and performing well on the validation data.
+
+High variance (unlimited depth): At max_depth "unlimited", the tree achieved a training RMSE of 0.000000 hours but a validation RMSE of 7.836781 hours. The gap of 7.836781 hours indicates that the model was overfitting, as it performed perfectly on the training data but had higher errors on the validation errors.
+
+### LEARNING RATE:
+
+The gradient boosting was evaluated with 100 estimators and learning rates of 0.01, 0.1, and 1.0. Following are the metrics that were recorded:
+1. Learning Rate (0.01): Validation RMSE of 10.001759 hours; Validation R2 of 0.712652
+2. Learning Rate (0.1): Validation RMSE of 4.916525 hours; Validation R2 of 0.930566
+3. Learning Rate (1.0): Validation RMSE of 7.370066 hours; Validation R2 of 0.843974
+
+The best validation performance was achieved with a learning rate of 0.1 with an RMSE of 4.916525 hours and an R2 of 0.930566.
+
+At a learning rate of 0.01 (Validation RMSE of 10.001759 hours; Validation R2 of 0.712652), the model learned too slowly because each boosting stage made only a small adjustment. With 100 boosting stages, it could not capture the underlying patterns therefore resulting into underfitting.
+
+At a learning of 1.0 (Validation RMSE of 7.370066 hours; Validation R2 of 0.843974), the model made large adjustments while learning, which resulted in missing the best predictions and increased the validation error.
+
+### CROSS-VALIDATION
+
+The two best models with the lowest validation RMSE are: Linear Regression and Gradient Boosting, were evaluated across 5-fold cross-validation on the combined dataset (Training Set and Validation Set) of 1020 shipments. Following are the metrics recorded:
+
+1. Linear Regression: Mean CV R2 of 0.926133; Standard Deviation CV R2 of 0.004754
+2. Gradient Boosting: Mean CV R2 of 0.935266; Standard Deviation CV R2 of 0.004477
+
+Both models achieved a mean cross-validation R2 score above 0.90 and low standard deviation, which indicates consistent performance across folds. The cross-validation ranking differs from the validation RMSE ranking. Gradient Boosting achieved a higher mean CV R2, whereas Linear Regression achieved a lower validation RMSE. In this scenario, I would choose Linear Regression because it achieved the lowest validation RMSE (4.891169 hours), is simple to use, and also performed well on the test data. Even though Gradient Boosting performed slightly better in cross-validation and is a competitive alternative, Linear Regression was also selected based on the assignment's validation RMSE requirement.
+
+The Linear Regression model was evaluated on the test dataset of 180 shipments. Following are the test metrics recorded:
+1. MAE: 3.567078 hours
+2. MSE: 20.462444
+3. RMSE: 4.523543 hours
+4. R2: 0.949250
+
+Therefore, the final model chosen was the Linear Regression model which achieved an R2 of 0.949250 on the test dataset, with an RMSE of 4.523543 hours. Linear Regression provided the lowest validation RMSE among all the four models and performed very well on the test dataset
+
