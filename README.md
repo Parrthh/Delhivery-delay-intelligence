@@ -16,51 +16,51 @@ The data is synthetic. Delhivery's real shipment records are never used. Every r
 
 ## How to Run:
 
-1. CREATE A VIRTUAL ENVIRONMENT:
+### 1. CREATE A VIRTUAL ENVIRONMENT:
 
 Commands to use:
 python -m venv .venv
 source .venv/bin/activate
 
-2. INSTALL THE REQUIRED LIBRARIES:
+### 2. INSTALL THE REQUIRED LIBRARIES:
 
 Command to use: pip install -r requirements.txt
 
-3. GENERATE THE DATASETS
+### 3. GENERATE THE DATASETS
 
 Command to use: python generate_data.py
 
 This command will create the historical shipment data, new shipment data, and hub information.
 
-4. RUN PART A
+### 4. RUN PART A
 
 Commands to use: python part_a_clean_eda.py
 
-5. RUN PART B
+### 5. RUN PART B
 
 Command to use: python part_b_regression.py
 
 This command will train and evaluate the regression models to predict the delivery duration of shipments. It will also generate the model comparison, decision tree depth, learning rate, and cross-validation results.
 
-6. RUN PART C
+### 6. RUN PART C
 
 Command to use: python part_c_classification.py
 
 This command will train and evaluate the classification models to identify delayed shipments. It will also perform feature selection, hyperparameter tuning, threshold selection, and final model evaluation.
 
-7. RUN PART D
+### 7. RUN PART D
 
 Command to use: python part_d_segments.py
 
 This command will generate the hub profiles and evaluate K-Means clustering for K values from 2 to 5. It will also assign the hubs to Standard, Watch, and Escalate segments.
 
-8. PACKAGE THE CLASSIFICATION MODEL
+### 8. PACKAGE THE CLASSIFICATION MODEL
 
 Command to use: python package_model.py
 
 This command will regenerate models/delay_model.pkl using the selected Random Forest model. It will also save the classification threshold, feature order, and historical imputation values required for scoring new shipments.
 
-9. SCORE THE NEW SHIPMENTS
+### 9. SCORE THE NEW SHIPMENTS
 
 Command to use: python predict_delay.py
 
