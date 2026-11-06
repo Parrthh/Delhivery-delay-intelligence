@@ -14,7 +14,7 @@ You will answer all three in one connected repository. The cleaning and feature 
 
 The data is synthetic. Delhivery's real shipment records are never used. Every row in this brief's dataset is produced by the generator script below; the brand is only the setting for the decisions.
 
-### How to Run:
+## How to Run:
 
 1. CREATE A VIRTUAL ENVIRONMENT:
 
@@ -66,7 +66,7 @@ Command to use: python predict_delay.py
 
 This command will load the saved classification model and hub segments, clean the new shipment data using the historical imputation values, and generate the operational action list in outputs/new_shipment_actions.csv
 
-### DATA FINDINGS (PART A):
+## DATA FINDINGS (PART A):
 
 1. Which service type is delayed most often and at what rate?
 
@@ -100,11 +100,11 @@ The mean for declared_value_inr is INR 1533.0542 and the median was INR 1121.5. 
 
 # Model results (regression) - PART B
 
-### BASELINE PERFORMANCE:
+## BASELINE PERFORMANCE:
 
 My results showed that the mean baseline predicted a constant delivery duration of 57.7493 hours which was calculated from the training dataset. On our validation dataset, the baseline achieved a MAE of 15.7952 hours, RMSE of 18.8552 hours, and R2 of -0.021221. The negative R2 here indicates that the baseline performed slightly worse than predicting the mean delivery duration of the validation set. 
 
-### MODEL COMPARISON:
+## MODEL COMPARISON:
 
 We compared four regression models that were trained using 840 training shipments and evaluated on 180 validation shipments. Following are the metrics that were recorded for each model:
 1. Linear Regression: Validation RMSE of 4.891169 hours; Validation R2 of 0.9313
@@ -114,7 +114,7 @@ We compared four regression models that were trained using 840 training shipment
 
 In this comparison, we found that Linear Regression achieved the lowest validation RMSE of 4.891169 hours. Therefore, it was selected as the final model.
 
-### HIGH BIAS vs HIGH VARIANCE:
+## HIGH BIAS vs HIGH VARIANCE:
 
 We evaluated the Decision Tree models at depth 1, 2, 3, 4, 6, 8, 12, and unlimited. 
 
@@ -124,7 +124,7 @@ Best performing depth (depth 6): At max_depth 6, the tree achieved its lowest va
 
 High variance (unlimited depth): At max_depth "unlimited", the tree achieved a training RMSE of 0.000000 hours but a validation RMSE of 7.836781 hours. The gap of 7.836781 hours indicates that the model was overfitting, as it performed perfectly on the training data but had higher errors on the validation dataset.
 
-### LEARNING RATE:
+## LEARNING RATE:
 
 The gradient boosting was evaluated with 100 estimators and learning rates of 0.01, 0.1, and 1.0. Following are the metrics that were recorded:
 1. Learning Rate (0.01): Validation RMSE of 10.001759 hours; Validation R2 of 0.712652
@@ -137,7 +137,7 @@ At a learning rate of 0.01 (Validation RMSE of 10.001759 hours; Validation R2 of
 
 At a learning rate of 1.0 (Validation RMSE of 7.370066 hours; Validation R2 of 0.843974), the model made large adjustments while learning, which resulted in missing the best predictions and increased the validation error.
 
-### CROSS-VALIDATION
+## CROSS-VALIDATION
 
 The two best models with the lowest validation RMSE are: Linear Regression and Gradient Boosting, were evaluated across 5-fold cross-validation on the combined dataset (Training Set and Validation Set) of 1020 shipments. Following are the metrics recorded:
 
@@ -156,23 +156,23 @@ Therefore, the final model chosen was the Linear Regression model which achieved
 
 # Model results (classification) - PART C
 
-### BLIND BASELINE PERFORMANCE:
+## BLIND BASELINE PERFORMANCE:
 
 The blind baseline predicted that every shipment would be delivered on time. On the validation dataset of 180 shipments, it achieved an accuracy of 0.7666666666666667. The precision, recall, and F1 score were all 0 because the model failed to identify any of the 42 delayed shipments. Therefore, even though the accuracy was high, the baseline was not useful for identifying delayed shipment.
 
-### FEATURE SELECTION
+## FEATURE SELECTION
 
 The five noise features contributed a combined Random Forest importance of 0.22437846660639194. All five noise features ranked outside the top 7 features based on their ANOVA F-scores. We evaluated SelectKBest with the k values of 5,7,10,12, and 17. The highest validation F1 score of 0.8333333333333334 was achieved with k = 7. Therefore, we selected the top 7 features for further model evaluation.
 
-### HYPERPARAMETER TUNING:
+## HYPERPARAMETER TUNING:
 
 We evaluated GridSearchCV and RandomizedSearchCV using 5-fold cross-validation. GridSearchCV achieved a validation F1 score of 0.775, while RandomizedSearchCV achieved 0.7848101265822784. The default Random Forest using the same 7 features achieved a higher validation F1 score of 0.8333333333333334. Therefore, hyperparameter tuning did not improve the model's validation performance. Since the validation dataset contained only 180 shipments, the results may also be sensitive to small changes in predictions.
 
-### THRESHOLD SELECTION:
+## THRESHOLD SELECTION:
 
 We have evaluated threshold from 0.1 to 0.9 and selected the highest threshold that maintained a validation recall of at least 0.80. The selected threshold was 0.5, which achieved a validation precision of 0.795455 and recall of 0.833333. Increasing the threshold to 0.6 improved precision to 0.888889 but reduced recall to 0.761905. Therefore, we selected 0.5 to identify more delayed shipments while maintaining the precision.
 
-### FINAL TEST PERFORMANCE:
+## FINAL TEST PERFORMANCE:
 
 The final Random Forest model was evaluated on 180 test shipments using the selected threshold of 0.5. The following are the metrics recorded:
 1. Accuracy: 0.8666666666666667
@@ -186,7 +186,7 @@ Therefore, the final model chosen was the Random Forest with 7 selected features
 
 # Operations recommendation - Part D
 
-### HUB SEGMENTATION:
+## HUB SEGMENTATION:
 
 We evaluated K-Means clustering using the 24 historical hub profiles, with K values of 2,3,4, and 5. The following are the separation ratios and cluster sizes recorded:
 
@@ -197,7 +197,7 @@ We evaluated K-Means clustering using the 24 historical hub profiles, with K val
 
 Although the separation ratio increased for K = 4 and  K = 5, I selected K = 3 because the other two solutions created smaller clusters containing fewer than 6 hubs. These smaller clusters would be difficult to manage with separate operational plans. K = 3 provided three meaningful groups with at least 7 hubs in each segment.
 
-### SEGMENT RESULTS:
+## SEGMENT RESULTS:
 
 After selecting K = 3, we assigned the segment names based on their average delay rates. Following are the results:
 1. Standard: 7 hubs, with an average delay rate of 2.57% and mean delivery duration of 47.239629 hours.
@@ -206,7 +206,7 @@ After selecting K = 3, we assigned the segment names based on their average dela
 
 The Escalate segment recorded the highest delay rate and delivery duration. Therefore, these hubs should receive the highest operational attention
 
-### HUBS REQUIRING ESCALATION:
+## HUBS REQUIRING ESCALATION:
 
 The following nine hubs were assigned to the Escalate segment based on their historical performance:
 1. HUB13 - Nagpur: 46% delay rate
@@ -221,7 +221,7 @@ The following nine hubs were assigned to the Escalate segment based on their his
 
 Among these hubs, Guwahati recorded the highest delay rate at 62%, followed by Agartala at 54% and Raipur at 48%. These hubs should be prioritized for reviewing the operational delays, shipment handling, and hub capacity.
 
-### TIER VS SEGMENT COMPARISON:
+## TIER VS SEGMENT COMPARISON:
 
 We have compared the existing hub tiers with the newly assigned operational segments. Four hubs showed a mismatch between their existing tier and the assigned segment:
 1. HUB07 - Kolkata: Tier 1, assigned to Watch
@@ -231,7 +231,7 @@ We have compared the existing hub tiers with the newly assigned operational segm
 
 These results show that the existing hub tier does not always represent the historical delay performance. For Example: Nagpur and Kochi are Tier 2 hubs but were assigned to the Escalate segment. Therefore, the operational teams should consider the actual delay performance along with the existing hub tiers when prioritizing hubs.
 
-### NEW SHIPMENT SCORING AND ACTIONS:
+## NEW SHIPMENT SCORING AND ACTIONS:
 
 We used the saved Random Forest classification model with a threshold of 0.5 to score 48 new shipments. The following are the results:
 1. Total shipments scored: 48
@@ -246,7 +246,7 @@ The operational action depends on the predicted delay and the assigned hub segme
 
 The current pipeline was developed and evaluated using synthetic shipment data. Before using the pipeline in a real logistics environment, the following areas would need to be considered.
 
-### PRODUCTION READINESS:
+## PRODUCTION READINESS:
 
 1. Accuracy: The final regression model achieved a test RMSE of 4.523543 hours, while the classification model achieved a test recall of 0.756098. These results provide a starting point for evaluation, but the models would need to be tested using real shipment data before deployment.
 2. Reliability: The scoring pipeline uses the saved model, threshold, feature order, and historical imputation values. The pipeline also checks for missing output values and duplicate shipment IDs to reduce the chances of generating incomplete operational results.
@@ -256,7 +256,7 @@ The current pipeline was developed and evaluated using synthetic shipment data. 
 6. Consistency: The saved feature order and historical imputation values are used when scoring new shipments. This helps ensure that the new data follows the same preprocessing and feature structure used during model training.
 7. Monitorability: The pipeline should record prediction results, flagged shipments, actual delivery outcomes, and operational actions. These records would help monitor model performance and identify changes in shipment patterns.
 
-### MONITORING PLAN:
+## MONITORING PLAN:
 
 We would monitor the following metrics after deployment. The alert thresholds below are proposed starting points and would need to be adjusted using actual production data.
 
@@ -265,7 +265,7 @@ We would monitor the following metrics after deployment. The alert thresholds be
 3. Classification recall: Once actual delivery outcomes are available, compare the predicted delays with the actual delayed shipments. If recall falls below 0.65, the model should be reviewed because it may be missing too many delayed shipments.
 4. Missing input values: Monitor the percentage of shipments requiring missing-value imputation. If more than 10% of shipments have a missing value in any required numeric input column, the data source should be reviewed.
 
-### RETRAINING PLAN:
+## RETRAINING PLAN:
 
 I would recommend evaluating and retraining the model every month using newly collected shipment data. The model should also be reviewed earlier  if there is a consistent decline in prediction performance or a significant change in shipment patterns.
 
