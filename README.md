@@ -66,7 +66,7 @@ Command to use: python predict_delay.py
 
 This command will load the saved classification model and hub segments, clean the new shipment data using the historical imputation values, and generate the operational action list in outputs/new_shipment_actions.csv
 
-## DATA FINDINGS (PART A):
+## Data Findings (PART A):
 
 ### 1. Which service type is delayed most often and at what rate?
 
@@ -184,7 +184,7 @@ The model correctly identified 31 out of 41 delayed shipments. The test recall o
 
 Therefore, the final model chosen was the Random Forest with 7 selected features and a threshold of 0.5, which achieved a test F1 score of 0.7209302325581395
 
-# Operations recommendation - Part D
+# Operations recommendation - PART D
 
 ## HUB SEGMENTATION:
 
