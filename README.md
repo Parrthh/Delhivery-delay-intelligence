@@ -124,3 +124,32 @@ The Linear Regression model was evaluated on the test dataset of 180 shipments. 
 
 Therefore, the final model chosen was the Linear Regression model which achieved an R2 of 0.949250 on the test dataset, with an RMSE of 4.523543 hours. Linear Regression provided the lowest validation RMSE among all the four models and performed very well on the test dataset
 
+# Model results (classification) - PART C
+
+### BLIND BASELINE PERFORMANCE:
+
+The blind baseline predicted that every shipment would be delivered on time. On the validation dataset of 180 shipments, it achieved an accuracy of 0.7666666666666667. The precision, recall, and F! score were all 0 because the model failed to identify any of the 42 delayed shipments. Thereore, even though the accuracy was high, the baseline was not useful for identifying delayed shipment.
+
+### FEATURE SELECTION
+
+The five noise features contributed a combined Random Forest importance of 0.22437846660639194. All five noise features ranked outside the top 7 features based on their F1 scores. We evaluated SelectKBest with the k values of 5,7,10,12, and 17. The highest validation F1 score of 0.8333333333333334 was achieved with k = 7. Therefore, we selected the top 7 features for further model evaluation.
+
+### HYPERPARAMETER TUNING:
+
+We evaluated GridSearchCV and RandomizedSearchCV using 5-fold cross-validation. GridSearchCV achieved a validation F1 score of 0.775, while RandomizedSearchCV achieved 0.7848101265822784. The default Random Forest using the same 7 features achieved a higher validation F1 score of 0.8333333333333334. Therefore, hyperparameter tuning did not improve the model's validation performance. Since the validation dataset contained only 180 shipments, the results may also be sensitive to small changes in predictions.
+
+### THRESHOLD SELECTION:
+
+We have evaluated threshold from 0.1 to 0.9 and selected the highest threshold that maintained a validation recall of at least 0.80. The selected threshold was 0.5, which achieved a validation precision of 0.795455 and recall of 0.833333. Increasing the threshold to 0.6 improved precision to 0.888889 but reduced recall to 0.761905. Therefore, we selected 0.5 to identify more delayed shipments while maintaining the precision.
+
+### FINAL TEST PREFORMANCE:
+
+The final Random Forest model was evaluated on 180 test shipments using the selected threshold of 0.5. The following are the metrics recorded:
+1. Accuracy: 0.8666666666666667
+2. Precision: 0.6888888888888889
+3. Recall: 0.7560975609756098
+4. F1: 0.7209302325581395
+
+The model correctly identified 31 out of 41 delayed shipments. The test recall of 0.7560975609756098 was lower than the validation recall of 0.8333333333333334. Since the test set has contained only 41 delayed shipments, a small change in the number of correctly identified delays can affect the recall significantly.
+
+Therefore, the fimal model chosen was the Random Forest with 7 selected features and a threshold of 0.5, which achieved a test F1 score of 0.7209302325581395
