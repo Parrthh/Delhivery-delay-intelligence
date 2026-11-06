@@ -68,17 +68,17 @@ This command will load the saved classification model and hub segments, clean th
 
 ## DATA FINDINGS (PART A):
 
-1. Which service type is delayed most often and at what rate?
+### 1. Which service type is delayed most often and at what rate?
 
 Express shipments have the highest delay rate. From 1200 total historical shipments, 278 total shipments were delayed, out of which Express shipments recorded the highest delay rate at 48.97%. The Standard shipment recorded 20.56% delay rate, and Economy shipment recorded 8.57% delay rate.
 
 Out of the 1200 historical shipments, 278 shipments were delayed, resulting in an overall delay rate of 23.17%.
 
-2. How delay rate changes from Tier 1 to Tier 3?
+### 2. How delay rate changes from Tier 1 to Tier 3?
 
 Tier 1 had a delay rate of 4%, Tier 2 had a delay rate of 21.5%, and Tier 3 had a delay rate of 44%. All 3 tiers had 400 shipments each, but Tier 3 recorded 176 delayed shipments compared with 16 delayed shipments for Tier 1.
 
-3. How it changes across distance bands?
+### 3. How it changes across distance bands?
 
 In the results, it shows that delay rates increased across the four distance bands. The following is the distribution of distance with its respective delay rate:
 Distance (0 - 200 km): 2.19% of delay rate
@@ -86,7 +86,7 @@ Distance (201 - 400 km): 13.68% of delay rate
 Distance (401 - 600 km): 43.64% of delay rate
 Distance (601+ km): 85.23% of delay rate
 
-4. The three columns most strong correlated with delivery_hours - rank the columns of part_a_correlations.csv
+### 4. The three columns most strong correlated with delivery_hours - rank the columns of part_a_correlations.csv
 
 The three columns with most strong correlations with delivery_hours:
 
@@ -94,7 +94,7 @@ promised_hours : +0.8372
 distance_km : +0.4013
 n_stops : +0.3247
 
-5. One sentence on why declared_value_inr was log-transformed (compare its mean and median before and after, using the filled columns):
+### 5. One sentence on why declared_value_inr was log-transformed (compare its mean and median before and after, using the filled columns):
 
 The mean for declared_value_inr is INR 1533.0542 and the median was INR 1121.5. After applying the log transformation, the mean and median were 7.0277 and 7.0224. The log transformation helped compress large numerical values and help reduce the highly skewed inputs during modelling.
 
